@@ -1,0 +1,147 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/lights_out.gd" id="1_puzzle"]
+[ext_resource type="Texture2D" path="res://assets/generated/lights_out_on.png" id="3_on"]
+[ext_resource type="Texture2D" path="res://assets/generated/lights_out_off.png" id="4_off"]
+[ext_resource type="Texture2D" path="res://assets/generated/lights_out_plinth.png" id="5_plinth"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_reach"]
+size = Vector2(220, 220)
+
+[node name="LightsOut" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+monitoring = true
+script = ExtResource("1_puzzle")
+lit_texture = ExtResource("3_on")
+unlit_texture = ExtResource("4_off")
+
+[node name="Console" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("5_plinth")
+
+[node name="Grid" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+position = Vector2(48, 48)
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 36.0
+offset_bottom = 36.0
+mouse_filter = 0
+
+[node name="Cell0" type="Button" parent="Grid"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 14.0
+offset_bottom = 14.0
+focus_mode = 0
+flat = true
+icon = ExtResource("3_on")
+
+[node name="Cell1" type="Button" parent="Grid"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 2.0
+offset_right = 26.0
+offset_bottom = 14.0
+focus_mode = 0
+flat = true
+icon = ExtResource("3_on")
+
+[node name="Cell2" type="Button" parent="Grid"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 2.0
+offset_right = 38.0
+offset_bottom = 14.0
+focus_mode = 0
+flat = true
+icon = ExtResource("3_on")
+
+[node name="Cell3" type="Button" parent="Grid"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 14.0
+offset_right = 14.0
+offset_bottom = 26.0
+focus_mode = 0
+flat = true
+icon = ExtResource("3_on")
+
+[node name="Cell4" type="Button" parent="Grid"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 14.0
+offset_right = 26.0
+offset_bottom = 26.0
+focus_mode = 0
+flat = true
+icon = ExtResource("3_on")
+
+[node name="Cell5" type="Button" parent="Grid"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 14.0
+offset_right = 38.0
+offset_bottom = 26.0
+focus_mode = 0
+flat = true
+icon = ExtResource("3_on")
+
+[node name="Cell6" type="Button" parent="Grid"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 26.0
+offset_right = 14.0
+offset_bottom = 38.0
+focus_mode = 0
+flat = true
+icon = ExtResource("3_on")
+
+[node name="Cell7" type="Button" parent="Grid"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 26.0
+offset_right = 26.0
+offset_bottom = 38.0
+focus_mode = 0
+flat = true
+icon = ExtResource("3_on")
+
+[node name="Cell8" type="Button" parent="Grid"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 26.0
+offset_right = 38.0
+offset_bottom = 38.0
+focus_mode = 0
+flat = true
+icon = ExtResource("3_on")
+
+[node name="Status" type="Label" parent="."]
+offset_left = -48.0
+offset_top = 52.0
+offset_right = 48.0
+offset_bottom = 64.0
+mouse_filter = 2
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(0.52, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "ACESAS: 0 / 9"
+horizontal_alignment = 1
+
+[node name="Prompt" type="Label" parent="."]
+offset_left = -60.0
+offset_top = 65.0
+offset_right = 60.0
+offset_bottom = 77.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.82, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "CLIQUE NAS LUZES"
+horizontal_alignment = 1
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_reach")
