@@ -1,30 +1,20 @@
 class_name Room
 extends Node2D
-## One chamber. Wires the player, its interactables and the HUD together, and
-## keeps the camera inside the chamber's walls.
-##
-## Putting riddles in a new chamber means building a new scene that inherits
-## this behaviour and dropping signs plus one sealed [Door] into it.
 
-@export_multiline var open_door_message: String = "Cold air moves through the opening.\n\nThe way beyond has not been written yet."
+@export_multiline var open_door_message: String = "Ar frio atravessa a abertura.\n\nO caminho adiante ainda não foi escrito."
 
-## When true the player's lights are blocked by the chamber's walls, so the
-## maze reads only through what the light actually reaches.
 @export var shadows_block_light: bool = false
 
-## The player leaves the chamber by crossing this Y line, once its door is open.
 const EXIT_Y := 0.0
-## Seconds the screen takes to fade out before the next chamber loads.
 const FADE_TIME := 0.6
+const LOCK_AUTO_CLOSE_DELAY := 0.9
 
 @onready var player: Player = $Player
 @onready var hud: HUD = $HUD
 @onready var walls: TileMapLayer = $Walls
 @onready var _door: Door = get_node_or_null("Props/Door") as Door
 
-## True once the door is open and there is a chamber to step into.
 var _exit_open: bool = false
-## True while a chamber change is underway, so it only ever fires once.
 var _transitioning: bool = false
 
 
@@ -41,7 +31,7 @@ func _ready() -> void:
 	var lights_puzzle: LightsOut = get_node_or_null("Props/LightsOut") as LightsOut
 	if lights_puzzle != null:
 		lights_puzzle.solved.connect(_on_lights_out_solved)
-	hud.set_room_label("Room %d" % _room_number())
+	hud.set_room_label("Sala %d" % _room_number())
 	if shadows_block_light:
 		for node in player.find_children("*", "PointLight2D", true, false):
 			var light: PointLight2D = node as PointLight2D
@@ -60,7 +50,6 @@ func _physics_process(_delta: float) -> void:
 		_leave_chamber()
 
 
-## The chamber's number, read from its scene file name (room_02 -> 2).
 func _room_number() -> int:
 	var digits: String = ""
 	for character in scene_file_path.get_file():
@@ -69,7 +58,6 @@ func _room_number() -> int:
 	return int(digits) if not digits.is_empty() else 0
 
 
-## Clamps the player camera to the painted tile bounds.
 func _frame_camera() -> void:
 	if walls.tile_set == null:
 		return
@@ -101,9 +89,13 @@ func _on_interacted(target: Interactable) -> void:
 	elif target is Door:
 		var door: Door = target as Door
 		if door.is_open:
-			hud.show_reader("The Open Door", open_door_message)
+			hud.show_reader("A Porta Aberta", open_door_message)
 		else:
 			hud.show_lock(door)
+	elif target is LightsOut:
+		var puzzle: LightsOut = target as LightsOut
+		if not puzzle.is_solved():
+			hud.show_puzzle(puzzle)
 
 
 func _on_panel_opened() -> void:
@@ -119,14 +111,20 @@ func _on_panel_closed() -> void:
 
 func _on_password_attempted(door: Door, text: String) -> void:
 	if door.check_password(text):
-		hud.set_lock_message("The seal breaks. The door grinds open.", true)
+		hud.set_lock_message("O selo se rompe. A porta se abre.", true)
 		door.unlock()
+		_dismiss_lock_after_delay()
 	else:
-		hud.set_lock_message("The stone stays silent. That is not the word.", false)
+		hud.set_lock_message("A pedra permanece em silêncio. Essa não é a palavra.", false)
 
 
-## The door swinging open clears the wall, but the way onward only opens once
-## there is a chamber waiting on the other side.
+func _dismiss_lock_after_delay() -> void:
+	await get_tree().create_timer(LOCK_AUTO_CLOSE_DELAY).timeout
+	if not is_inside_tree():
+		return
+	hud.close_panel()
+
+
 func _on_door_unlocked(_opened: Door) -> void:
 	if _door.destination.is_empty():
 		return
@@ -136,7 +134,6 @@ func _on_door_unlocked(_opened: Door) -> void:
 		threshold.set_deferred("collision_layer", 0)
 
 
-## Fades the screen to black and loads the destination chamber.
 func _leave_chamber() -> void:
 	_transitioning = true
 	player.can_move = false
@@ -149,7 +146,6 @@ func _leave_chamber() -> void:
 	get_tree().change_scene_to_file(_door.destination)
 
 
-## A full-screen black rectangle, transparent at first, for fade transitions.
 func _make_fade_overlay() -> ColorRect:
 	var layer: CanvasLayer = CanvasLayer.new()
 	layer.layer = 10
@@ -162,18 +158,14 @@ func _make_fade_overlay() -> ColorRect:
 	return rect
 
 
-## Shows the password textbox when the 3x3 Lights Out puzzle is solved.
 func _on_lights_out_solved(puzzle: LightsOut) -> void:
 	hud.show_reader(puzzle.solved_title, puzzle.solved_body)
 
 
-## Reveals a pressure plate's hint in the HUD panel.
 func _on_plate_pressed(plate: PressurePlate) -> void:
 	hud.show_reader(plate.hint_title, plate.hint_body)
 
 
-## The creators' names have done their job once the book has been read, so they
-## fade away and leave the chamber to its riddle.
 func _on_book_closed() -> void:
 	var order: int = 0
 	for node in get_tree().get_nodes_in_group(NamePlate.GROUP_NAME):

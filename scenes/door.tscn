@@ -77,7 +77,7 @@ size = Vector2(30, 32)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_door")
-prompt = "Examine"
+prompt = "Examinar"
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1784499687]
 texture_filter = 1

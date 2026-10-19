@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ending.gd" id="1_ending"]
+[ext_resource type="PackedScene" path="res://scenes/name_plate.tscn" id="2_plate"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ending"]
+content_margin_left = 44.0
+content_margin_top = 34.0
+content_margin_right = 44.0
+content_margin_bottom = 34.0
+bg_color = Color(0.03, 0.045, 0.075, 0.96)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.38, 0.68, 1, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="Ending" type="Node2D"]
+script = ExtResource("1_ending")
+
+[node name="Backdrop" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Black" type="ColorRect" parent="Backdrop"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Plates" type="Node2D" parent="."]
+
+[node name="NameLeft" parent="Plates" instance=ExtResource("2_plate")]
+position = Vector2(120, 360)
+text = "Renan G."
+
+[node name="NameRight" parent="Plates" instance=ExtResource("2_plate")]
+position = Vector2(1160, 360)
+text = "Gustavo F."
+
+[node name="Interface" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="Center" type="CenterContainer" parent="Interface"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Interface/Center"]
+custom_minimum_size = Vector2(860, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_ending")
+
+[node name="VBox" type="VBoxContainer" parent="Interface/Center/Panel"]
+theme_override_constants/separation = 20
+
+[node name="Title" type="TextureRect" parent="Interface/Center/Panel/VBox"]
+texture_filter = 1
+size_flags_horizontal = 4
+
+[node name="Message" type="TextureRect" parent="Interface/Center/Panel/VBox"]
+texture_filter = 1
+size_flags_horizontal = 4
+
+[node name="Footer" type="TextureRect" parent="Interface/Center/Panel/VBox"]
+texture_filter = 1
+size_flags_horizontal = 4

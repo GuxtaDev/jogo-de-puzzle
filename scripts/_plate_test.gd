@@ -1,6 +1,4 @@
 extends Node2D
-## Temporary verification scene: checks the room_02 door password and the
-## transition to room_03.
 
 func _ready() -> void:
 	var room: Node = load("res://scenes/room_02.tscn").instantiate()

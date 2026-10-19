@@ -82,13 +82,11 @@ position = Vector2(224, 16)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("5_gjcek")
-title = "THE SECOND SEAL"
-hint = "A pale sigil turns slowly in the stone.
-
-It does not want a word. It wants a name."
-password = "naner"
+title = ""
+hint = "as {placas da verdade} dizem, explicam o espaço com clareza. diga-me o nome do mesmo, e do mesmo sairás."
+password = "labirinto"
 destination = "res://scenes/room_03.tscn"
-prompt = "Examine"
+prompt = "Examinar"
 
 [node name="PlateLowerLeft" type="Area2D" parent="Props" unique_id=583494686 instance=ExtResource("6_m35lo")]
 position = Vector2(56, 216)
@@ -96,7 +94,7 @@ collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_mwddn")
 hint_title = "Dica 1"
-hint_body = "(escreva aqui a dica 1)"
+hint_body = "no meio do caminho da nossa vida, achei-me por uma {selva escura}, pois a via reta era perdida."
 
 [node name="PlateLowerRight" type="Area2D" parent="Props" unique_id=822734751 instance=ExtResource("6_m35lo")]
 position = Vector2(376, 216)
@@ -104,7 +102,7 @@ collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_mwddn")
 hint_title = "Dica 2"
-hint_body = "(escreva aqui a dica 2)"
+hint_body = "deixai toda a {esperança}, vós que entrais."
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1079231674 instance=ExtResource("2_player")]
 position = Vector2(224, 216)

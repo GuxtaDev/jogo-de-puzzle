@@ -7,11 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://b8eumu04sjn3f" path="res://scenes/door.tscn" id="4_door"]
 [ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" path="res://scenes/lights_out.tscn" id="6_puzzle"]
-[ext_resource type="Script" uid="uid://dfxsivm8tj7xf" path="res://scripts/lights_out.gd" id="8_yrtu1"]
-[ext_resource type="Texture2D" uid="uid://6guf45a5cme7" path="res://assets/generated/lights_out_on.png" id="9_tqf35"]
-[ext_resource type="Texture2D" uid="uid://bm6mverabpt1t" path="res://assets/generated/lights_out_off.png" id="10_5vuk5"]
-[ext_resource type="PackedScene" path="res://scenes/bookstand.tscn" id="11_book"]
 [ext_resource type="PackedScene" path="res://scenes/name_plate.tscn" id="12_plate"]
+[ext_resource type="PackedScene" path="res://scenes/pressure_plate.tscn" id="13_pressure"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_87oqg"]
 texture = ExtResource("2_a1hoc")
@@ -48,12 +45,6 @@ tile_set = SubResource("TileSet_q24kv")
 
 [node name="Props" type="Node2D" parent="." unique_id=1334539975]
 
-[node name="Bookstand" parent="Props" unique_id=1889433210 instance=ExtResource("11_book")]
-visible = false
-position = Vector2(224, 104)
-titles = PackedStringArray("AWAKENING", "THE RIDDLE", "THE LOCKED WAYS", "THE LIGHT")
-bodies = PackedStringArray("You wake in the dark.\n\nA small white light. Two black eyes. No memory of how you came here.\n\nMove with W A S D or the arrow keys. Walk up to anything that glows and press E.", "Every chamber is a locked thought.\n\nEach one hides a riddle - in words, in numbers, in the things that do not belong.\n\nNothing here is decoration. Read everything twice.", "A door will not open for strength.\n\nIt opens only for the right words.\n\nStand beside a door, press E, and speak the password you have earned. If you are wrong, the stone stays silent.", "The light you carry is the last one left.\n\nIt shows you what is near. It does not show you what is true.\n\nWhen a riddle turns cruel, remember - the answer was always in the room.")
-
 [node name="NameLeft" parent="Props" unique_id=1373652835 instance=ExtResource("12_plate")]
 visible = false
 position = Vector2(92, 130)
@@ -66,20 +57,25 @@ text = "Gustavo F."
 
 [node name="Door" parent="Props" unique_id=816269539 instance=ExtResource("4_door")]
 position = Vector2(224, 16)
-title = "THE FIRST SEAL"
-hint = "A pale sigil turns slowly in the stone.
+title = ""
+hint = "sabes bem o que fazer."
+password = "miséria"
+destination = "res://scenes/ending.tscn"
 
-It does not want a word. It wants a name."
-password = "pombo rei"
-
-[node name="LightsOut" type="Area2D" parent="Props" unique_id=1467782799 instance=ExtResource("6_puzzle")]
+[node name="LightsOut" parent="Props" unique_id=1467782799 instance=ExtResource("6_puzzle")]
 position = Vector2(224, 120)
-collision_layer = 4
-collision_mask = 2
-script = ExtResource("8_yrtu1")
-lit_texture = ExtResource("9_tqf35")
-unlit_texture = ExtResource("10_5vuk5")
-solved_body = "As luzes se alinham. A senha é: naner"
+hint = "pressione {um orbe} para acendê-lo, e {todos ao redor}. Prove proficiência prática, e siga como recompensa."
+solved_body = "impressionante e previsível. a chave é \"{miséria}\"."
+
+[node name="PlateLowerLeft" parent="Props" unique_id=262526798 instance=ExtResource("13_pressure")]
+position = Vector2(56, 216)
+hint_title = "Dica 3"
+hint_body = "{mal dar e mal guardar} tirou-lhes o belo mundo"
+
+[node name="PlateLowerRight" parent="Props" unique_id=1112685354 instance=ExtResource("13_pressure")]
+position = Vector2(392, 216)
+hint_title = "Dica 4"
+hint_body = "ó vós que tendes o intelecto são, {mirai a doutrina} que se esconde sob o véu dos versos estranhos."
 
 [node name="Player" parent="." unique_id=1328382543 instance=ExtResource("2_player")]
 position = Vector2(224, 216)

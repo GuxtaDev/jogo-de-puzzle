@@ -1,20 +1,13 @@
 class_name Player
 extends CharacterBody2D
-## The player: a small glowing white square with two black eyes.
-##
-## Moves with WASD / arrow keys and keeps track of the nearest [Interactable]
-## within reach so the HUD can advertise it.
 
-## Emitted whenever the closest reachable interactable changes (null if none).
 signal interactable_changed(interactable: Interactable)
-## Emitted when the player presses the interact action near an interactable.
 signal interacted(interactable: Interactable)
 
 @export var move_speed: float = 120.0
 @export var acceleration: float = 900.0
 @export var deceleration: float = 1200.0
 
-## While false the player neither moves nor interacts (a panel is open).
 var can_move: bool = true
 
 var _current: Interactable = null
@@ -38,7 +31,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
-	# A slow float so the little square reads as alive rather than pasted on.
 	var bob: float = sin(_time * 2.4) * 1.0
 	visual.position = _visual_home + Vector2(0.0, bob)
 	glow.position = _glow_home + Vector2(0.0, bob)
@@ -63,12 +55,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		interacted.emit(_current)
 
 
-## Stops the player immediately; used when a panel takes over input.
 func halt() -> void:
 	velocity = Vector2.ZERO
 
 
-## The interactable currently within reach, or null.
 func current_interactable() -> Interactable:
 	return _current
 
